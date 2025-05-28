@@ -9,4 +9,6 @@ export function createCamera(){
     )
 
 camera.position.set(0,1,5)
+
+return camera
 }

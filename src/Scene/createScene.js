@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-function createScene(){
+export function createScene(){
     const scene = new THREE.Scene();
 
     const floor = new THREE.Mesh(
