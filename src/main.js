@@ -1,13 +1,16 @@
 import { setupPointerControls } from "./Controls/pointerControls";
 import { createRenderer } from "./renderer/renderer";
-import { createCamera } from "./Scene/createCamera";
-import { createScene } from "./Scene/createScene";
+import CustomCamera from "./Scene/createCamera";
+import RoomScene from "./Scene/createScene";
 import * as THREE from 'three';
 
 const canvas = document.querySelector(".canvas");
 
-const scene = createScene();
-const camera = createCamera();
+const room = new RoomScene();
+const customCamera = new CustomCamera();
+
+const scene = room.createScene();
+const camera = customCamera.createCamera();
 const renderer = createRenderer(canvas);
 
 const controls = setupPointerControls(camera,document.body);
@@ -16,6 +19,15 @@ scene.add(controls.object);
 let direction = new THREE.Vector3();
 let velocity = new THREE.Vector3();
 let prevTime = performance.now()
+
+const collisionObjects = [];
+scene.children.forEach((box) => {
+    if(box.isMesh){
+        const box3 = new THREE.Box3().setFromObject(box);
+
+        collisionObjects.push(box3);
+    }
+});
 
 const renderLoop = () => {
     const time = performance.now();
@@ -27,7 +39,6 @@ const renderLoop = () => {
         direction.x = Number(controls.keys.right) - Number(controls.keys.left);
         direction.normalize();
 
-        console.log(controls.keys);
 
         if(controls.keys.forward || controls.keys.backward){
             velocity.z = 0;
@@ -42,6 +53,10 @@ const renderLoop = () => {
         }
         controls.object.position.y += ( velocity.y * delta );
     }
+
+    customCamera.updatePlayerBox();
+
+    customCamera.checkCollisions(collisionObjects);
 
     prevTime = time;
 
