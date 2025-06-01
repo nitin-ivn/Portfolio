@@ -18,6 +18,7 @@ scene.add(controls.object);
 
 let direction = new THREE.Vector3();
 let velocity = new THREE.Vector3();
+let prevPosition = new THREE.Vector3();
 let prevTime = performance.now()
 
 const collisionObjects = [];
@@ -32,6 +33,8 @@ scene.children.forEach((box) => {
 const renderLoop = () => {
     const time = performance.now();
     const delta = (time - prevTime) / 1000;
+
+    prevPosition.copy(camera.position);
 
 
     if(controls.isLocked === true){
@@ -56,7 +59,14 @@ const renderLoop = () => {
 
     customCamera.updatePlayerBox();
 
-    customCamera.checkCollisions(collisionObjects);
+
+    const collided = customCamera.checkCollisions(collisionObjects);
+
+    if(collided){
+        console.log(collided)
+        camera.position.copy(prevPosition);
+        customCamera.updatePlayerBox();
+    }
 
     prevTime = time;
 

@@ -16,24 +16,28 @@ class CustomCamera{
             300,
         )
 
-        this.camera.position.set(0,1,3.5)
+        // this.camera.position.set(0,1,3.5)
+        this.camera.position.set(-7,1,0);
 
         return this.camera;
     }
 
     updatePlayerBox(){
         const cameraPosition = this.camera.position;
-        const min = cameraPosition.clone().sub(this.playerSize.clone().multiplyScalar(0.5));
-        const max = cameraPosition.clone().add(this.playerSize.clone().multiplyScalar(0.5));
+        const min = cameraPosition.clone().sub(this.playerSize.clone().multiplyScalar(0.3));
+        const max = cameraPosition.clone().add(this.playerSize.clone().multiplyScalar(0.3));
         this.playerBox.set(min,max);
     }
 
-    checkCollisions(collisionObjects, directions){
+    checkCollisions(collisionObjects){
+        let collided = false;
         collisionObjects.forEach((box) => {
             if(this.playerBox.intersectsBox(box)){
-                console.log('collided');
+                collided = true;
             }
         });
+
+        return collided;
     }
 }
 
