@@ -10,22 +10,22 @@ class CustomCamera{
 
     createCamera(){
         this.camera = new THREE.PerspectiveCamera(
-            35,
+            65,
             window.innerWidth / window.innerHeight,
             0.1,
             300,
         )
 
-        // this.camera.position.set(0,1,3.5)
-        this.camera.position.set(-7,1,0);
+        this.camera.position.set(0,1,3.5)
+        // this.camera.position.set(-5,1,0);
 
         return this.camera;
     }
 
     updatePlayerBox(){
         const cameraPosition = this.camera.position;
-        const min = cameraPosition.clone().sub(this.playerSize.clone().multiplyScalar(0.3));
-        const max = cameraPosition.clone().add(this.playerSize.clone().multiplyScalar(0.3));
+        const min = cameraPosition.clone().sub(this.playerSize.clone().multiplyScalar(0.2));
+        const max = cameraPosition.clone().add(this.playerSize.clone().multiplyScalar(0.2));
         this.playerBox.set(min,max);
     }
 

@@ -17,7 +17,6 @@ const controls = setupPointerControls(camera,document.body);
 scene.add(controls.object);
 
 let direction = new THREE.Vector3();
-let velocity = new THREE.Vector3();
 let prevPosition = new THREE.Vector3();
 let prevTime = performance.now()
 
@@ -36,6 +35,8 @@ const renderLoop = () => {
 
     prevPosition.copy(camera.position);
 
+    const speed = 4;
+
 
     if(controls.isLocked === true){
         direction.z = Number(controls.keys.forward) - Number(controls.keys.backward);
@@ -44,17 +45,13 @@ const renderLoop = () => {
 
 
         if(controls.keys.forward || controls.keys.backward){
-            velocity.z = 0;
-            velocity.z -= direction.z * 400.0 * delta;
-            controls.moveForward(-velocity.z *  delta)
+
+            controls.moveForward(direction.z * speed *  delta)
         }
 
         if(controls.keys.left || controls.keys.right){
-            velocity.x = 0;
-            velocity.x -= direction.x * 400.0 * delta;
-            controls.moveRight(-velocity.x *  delta)
+            controls.moveRight(direction.x * speed *  delta)
         }
-        controls.object.position.y += ( velocity.y * delta );
     }
 
     customCamera.updatePlayerBox();
