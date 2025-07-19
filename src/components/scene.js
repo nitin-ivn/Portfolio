@@ -9,19 +9,56 @@ class RoomScene{
         this.door1;
         this.door2;
         this.door3;
-        this._setUpWall();
+        this._setUpWalls();
         this._setUpFloor();
         this._setUpLights();
         this._setUpDoors();
     }
 
-    _setUpWall(){
-        const boxGeometry = new THREE.BoxGeometry(15,7,1);
-        const boxMaterial = new THREE.MeshStandardMaterial({color: "#87CEEB"});
+    _setUpWalls(){
+        const boxGeometry = new THREE.PlaneGeometry(1,1);
+        const boxMaterial = new THREE.MeshStandardMaterial({color: "#DC143C"});
 
-        const box = new THREE.Mesh(boxGeometry,boxMaterial);
-        box.position.set(0,0,-2)
-        this.scene.add(box);
+        const topWall = new THREE.Mesh(boxGeometry,boxMaterial);
+        topWall.scale.x = 20;
+        topWall.scale.y = 3;
+
+        const wallThickness = 0.2;
+        const wallHeight = 5;
+        const wallMaterial = new THREE.MeshStandardMaterial({ color: '#DC143C' });
+        const wallLeft = new THREE.Mesh(
+            new THREE.BoxGeometry(3, wallHeight, wallThickness),
+            wallMaterial
+        );
+        wallLeft.position.set(-6.7, 0, -2.1);
+        this.scene.add(wallLeft);
+
+
+        const wallMidLeft = new THREE.Mesh(
+        new THREE.BoxGeometry(1.7, wallHeight, wallThickness),
+            wallMaterial
+        );
+        wallMidLeft.position.set(-2.05, 0, -2.1);
+        this.scene.add(wallMidLeft);
+
+        const wallMidRight = new THREE.Mesh(
+        new THREE.BoxGeometry(1.7, wallHeight, wallThickness),
+            wallMaterial
+        );
+        wallMidRight.position.set(1.95, 0, -2.1);
+        this.scene.add(wallMidRight);
+
+        const wallRight = new THREE.Mesh(
+        new THREE.BoxGeometry(3, wallHeight, wallThickness),
+            wallMaterial
+        );
+        wallRight.position.set(6.6, 0, -2.1);
+        this.scene.add(wallRight);
+
+
+        topWall.position.set(0,3.06,-2);
+
+        this.scene.add(topWall);
     }
 
     _setUpFloor(){
@@ -85,13 +122,17 @@ class RoomScene{
             this.door3 = door3Class.getdoor();
             this.door3.position.set(DOOR.D3X,DOOR.DY,DOOR.DZ);
             
-            door3Class.openDoor();
+            // door3Class.openDoor();
 
             if(this.door3){
                 this.scene.add(this.door3);
                 console.log(this.scene);
             }
-        })
+        });
+
+        this.door1.userData = { type: 'personal-details' };
+        this.door2.userData = { type: 'projects' };
+        this.door3.userData = { type: 'achievements' };
     }
 
     getScene(){
