@@ -126,13 +126,11 @@ class RoomScene{
 
             if(this.door3){
                 this.scene.add(this.door3);
+                door3Class.openDoor();
                 console.log(this.scene);
             }
         });
 
-        this.door1.userData = { type: 'personal-details' };
-        this.door2.userData = { type: 'projects' };
-        this.door3.userData = { type: 'achievements' };
     }
 
     getScene(){

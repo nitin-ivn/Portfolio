@@ -19,9 +19,10 @@ console.log(camera)
 const orbitControls = new OrbitControls(camera,canvas);
 scene.add(orbitControls);
 
-const renderer = createRenderer(canvas);
+const renderer = createRenderer(canvas, customCamera);
 
 const renderLoop = () => {
+    console.log(window.innerWidth / window.innerHeight);
     renderer.render(scene,camera);
     requestAnimationFrame(renderLoop);
 }

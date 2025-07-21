@@ -13,9 +13,30 @@ class CustomCamera{
             300,
         )
 
-        this.camera.position.set(0,0,3.7);
-        this.camera.lookAt(1,1,1)
+        this.updateCameraPosition();
         return this.camera;
+    }
+
+    updateCameraPosition(){
+        const aspectRatio = window.innerWidth / window.innerHeight;
+
+        if(aspectRatio < 1 && aspectRatio >= 0.65){
+            this.camera.position.set(0,0,11);
+        }else if(aspectRatio < 0.65){
+            this.camera.position.set(0,0,15)
+        }else if(aspectRatio >= 1 && aspectRatio < 1.5){
+            this.camera.position.set(0,0,5);
+        }else{
+            this.camera.position.set(0,0,3.7);
+        }
+
+        
+    }
+
+    updateCameraOnResize(){
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.updateCameraPosition();
+        this.camera.updateProjectionMatrix();
     }
 }
 

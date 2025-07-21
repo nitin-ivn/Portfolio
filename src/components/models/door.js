@@ -11,20 +11,21 @@ export default class Door{
     async initializeDoor(){
         this.door = await loadModel(this.url);
         this.correctDoorRotation();
-        console.log(this.door);
     }
 
     correctDoorRotation(){
         this.door.rotation.y = Math.PI;
+        this.door.traverse((child) => console.log(child));
         this.door.scale.set(2.5,2,1);
     }
 
     openDoor(){
+        //Cube == handle
         this.door.children.forEach((child) => {
-            if(child.isMesh){
+            if(child.name == 'Cube'){
                 child.rotation.y = Math.PI / 2;
             }
-        })
+        });
     }
 
     getdoor(){
