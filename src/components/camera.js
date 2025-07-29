@@ -25,7 +25,7 @@ class CustomCamera{
         }else if(aspectRatio < 0.65){
             this.camera.position.set(0,0,15)
         }else if(aspectRatio >= 1 && aspectRatio < 1.5){
-            this.camera.position.set(0,0,5);
+            this.camera.position.set(0,0,7);
         }else{
             this.camera.position.set(0,0,3.7);
         }
