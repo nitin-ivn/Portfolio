@@ -13,6 +13,8 @@ class CustomCamera{
             300,
         )
 
+        this.camera.layers.enable(2);
+
         this.updateCameraPosition();
         return this.camera;
     }

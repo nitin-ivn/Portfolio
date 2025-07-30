@@ -5,4 +5,8 @@ export const DOOR = {
 
     DY: -2.5,
     DZ: -2,
+
+    door1 : "door1",
+    door2 : "door2",
+    door3 : "door3",
 }

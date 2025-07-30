@@ -35,37 +35,38 @@ export default class Door{
         this.doorFrame.rotation.y = Math.PI / 1;
         this.doorHandle.rotation.y = Math.PI;
 
-        this.doorHandle.position.set(0.33,1,0.1)
+        this.doorHandle.position.set(0.73, 1, -0.05);
+this.pivotGroup.add(this.doorHandle);
         this.doorFrame.position.set(0,1.2,0);
 
         this.doorGroup.add(this.doorFrame);
         this.doorGroup.add(this.pivotGroup);
-        this.doorGroup.add(this.doorHandle);
 
         
         this.correctDoorRotation();
     }
 
     correctDoorRotation(){
-        //this.doorGroup.rotation.y = Math.PI;
-        console.log(this.doorGroup);
         this.doorGroup.scale.set(2.5,2,1);
     }
 
-    // openDoor(){
-    //     //Cube == handle
-    //     this.door.children.forEach((child) => {
-    //         if(child.name == 'Cube'){
-    //             //child.rotation.y = Math.PI / 2;
-    //         }
-    //     });
-    // }
-
     openDoor(){
         if(this.pivotGroup){
+            gsap.killTweensOf(this.pivotGroup.rotation);
             gsap.to(this.pivotGroup.rotation, {
                 y: Math.PI / 4,
-                duration: 1.2,
+                duration: 2,
+                ease: "power2.out"
+            });
+        }
+    }
+
+    closeDoor(){
+        if(this.pivotGroup){
+            gsap.killTweensOf(this.pivotGroup.rotation);
+            gsap.to(this.pivotGroup.rotation, {
+                y: 0,
+                duration: 2,
                 ease: "power2.out"
             });
         }
@@ -74,6 +75,10 @@ export default class Door{
 
     getdoor(){
         return this.doorGroup;
+    }
+
+    assignDoorName(doorName){
+        this.doorMesh.name = doorName;
     }
 }
 

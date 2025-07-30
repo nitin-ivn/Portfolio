@@ -4,8 +4,18 @@ import CustomCamera from './components/camera';
 import { createRenderer } from './components/renderer';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { or } from 'three/tsl';
+import { DOOR } from './components/constants';
 
 const canvas = document.getElementById("renderArea");
+
+const raycaster = new THREE.Raycaster();
+raycaster.layers.set(0);
+const pointer = new THREE.Vector2(-100, -100);
+
+function onPointerMove(event){
+    pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+    pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+}
 
 const room = new RoomScene();
 const customCamera = new CustomCamera();
@@ -13,18 +23,65 @@ const customCamera = new CustomCamera();
 const scene = room.getScene();
 const camera = customCamera.createCamera();
 
-console.log(scene);
-console.log(camera)
+const door1 = room.getDoor1();
+const door2 = room.getDoor2();
+const door3 = room.getDoor3();
+
+let INTERSECTED;
 
 const orbitControls = new OrbitControls(camera,canvas);
-scene.add(orbitControls);
 
 const renderer = createRenderer(canvas, customCamera);
 
-const renderLoop = () => {
-    console.log(window.innerWidth / window.innerHeight);
-    renderer.render(scene,camera);
-    requestAnimationFrame(renderLoop);
-}
+const hoveredDoors = {
+    door1: false,
+    door2: false,
+    door3: false
+};
 
+const renderLoop = () => {
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+    console.log(intersects);
+
+    const currentHovered = {
+        door1: false,
+        door2: false,
+        door3: false
+    };
+
+    for (let i = 0; i < intersects.length; i++) {
+        const name = intersects[i].object.name;
+        if (name === DOOR.door1) currentHovered.door1 = true;
+        if (name === DOOR.door2) currentHovered.door2 = true;
+        if (name === DOOR.door3) currentHovered.door3 = true;
+
+    }
+
+    //if(intersects.length > 0) console.log(intersects);
+
+    for (const key of ['door1', 'door2', 'door3']) {
+        const wasHovered = hoveredDoors[key];
+        const isHovered = currentHovered[key];
+
+        if (!wasHovered && isHovered) {
+            console.log("lol");
+            if (key === 'door1') door1.openDoor();
+            if (key === 'door2') door2.openDoor();
+            if (key === 'door3') door3.openDoor();
+        } else if (wasHovered && !isHovered) {
+            if (key === 'door1') door1.closeDoor();
+            if (key === 'door2') door2.closeDoor();
+            if (key === 'door3') door3.closeDoor();
+        }
+
+        hoveredDoors[key] = isHovered;
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(renderLoop);
+};
+
+
+window.addEventListener('pointermove', onPointerMove);
 renderLoop();
