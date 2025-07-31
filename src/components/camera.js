@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import gsap from "gsap";
+
 class CustomCamera{
     constructor(){
         this.camera = null;
@@ -40,6 +42,25 @@ class CustomCamera{
         this.updateCameraPosition();
         this.camera.updateProjectionMatrix();
     }
+
+    doorOpened(doorMesh){
+        console.log(doorMesh);
+    const targetPosition = doorMesh.position.clone();
+    targetPosition.z += 1;
+
+    const lookAtTarget = doorMesh.position.clone();
+
+    gsap.to(this.camera.position, {
+        x: targetPosition.x,
+        z: targetPosition.z,
+        duration: 3,
+        ease: 'power2.out',
+        onUpdate: () => {
+            // this.camera.lookAt(lookAtTarget);
+        }
+    });
+}
+
 }
 
 export default CustomCamera;

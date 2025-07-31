@@ -9,9 +9,9 @@ export default class Door{
         this.url = '/models/door.glb';
         this.doorFrame;
         this.doorHandle;
-
+        this.disableHover = false;
         this.doorGroup = new THREE.Group();
-        this.doorMesh;
+        this.doorMesh =  new THREE.Mesh(new THREE.BoxGeometry(0.8,2,0.1),new THREE.MeshStandardMaterial({color: 0xffffff}));;
         this.pivotGroup = new THREE.Group();
 
         this.door;
@@ -24,18 +24,15 @@ export default class Door{
         this.doorFrame = this.door.getObjectByName("Cube012");
         this.doorHandle = this.door.getObjectByName("Cube");
 
-        const boxGeometry = new THREE.BoxGeometry(0.8,2,0.1);
-        this.doorMesh = new THREE.Mesh(boxGeometry,new THREE.MeshStandardMaterial({color: 0xffffff}));
-
         this.pivotGroup.position.set(-0.4, 0, 0);
-        this.doorMesh.position.set(0.4,1,-0.1);
+        this.doorMesh.position.set(0.4,1,0);
 
         this.pivotGroup.add(this.doorMesh)
 
         this.doorFrame.rotation.y = Math.PI / 1;
         this.doorHandle.rotation.y = Math.PI;
 
-        this.doorHandle.position.set(0.73, 1, -0.05);
+        this.doorHandle.position.set(0.73, 1, 0.05);
 this.pivotGroup.add(this.doorHandle);
         this.doorFrame.position.set(0,1.2,0);
 
@@ -51,23 +48,41 @@ this.pivotGroup.add(this.doorHandle);
     }
 
     openDoor(){
-        if(this.pivotGroup){
+        if(this.pivotGroup && !this.disableHover){
             gsap.killTweensOf(this.pivotGroup.rotation);
             gsap.to(this.pivotGroup.rotation, {
                 y: Math.PI / 4,
                 duration: 2,
-                ease: "power2.out"
+                ease: "power2.out",
+                overwrite: true,
             });
         }
     }
 
     closeDoor(){
-        if(this.pivotGroup){
+        if(this.pivotGroup && !this.disableHover){
             gsap.killTweensOf(this.pivotGroup.rotation);
             gsap.to(this.pivotGroup.rotation, {
                 y: 0,
                 duration: 2,
-                ease: "power2.out"
+                ease: "power2.out",
+                overwrite: true,
+            });
+        }
+    }
+
+    doorClicked(){
+        if(this.pivotGroup){
+            this.disableHover = true;
+            gsap.killTweensOf(this.pivotGroup.rotation);
+            gsap.to(this.pivotGroup.rotation, {
+                y: Math.PI / 2,
+                duration: 2,
+                ease: "power2.out",
+                overwrite: true,
+                onComplete: () => {
+                    this.disableHover = false;
+                }
             });
         }
     }
@@ -78,7 +93,10 @@ this.pivotGroup.add(this.doorHandle);
     }
 
     assignDoorName(doorName){
-        this.doorMesh.name = doorName;
+        this.doorFrame.userData.doorName = doorName;
+        this.doorHandle.userData.doorName = doorName;
+        this.doorMesh.userData.doorName = doorName;
+
     }
 }
 

@@ -28,6 +28,7 @@ const door2 = room.getDoor2();
 const door3 = room.getDoor3();
 
 let INTERSECTED;
+let clicked = false;
 
 const orbitControls = new OrbitControls(camera,canvas);
 
@@ -39,10 +40,14 @@ const hoveredDoors = {
     door3: false
 };
 
+function onClick(){
+    clicked = true;
+}
+const clickableObjects = [door1.doorMesh, door2.doorMesh, door3.doorMesh];
+
 const renderLoop = () => {
     raycaster.setFromCamera(pointer, camera);
-    const intersects = raycaster.intersectObjects(scene.children);
-    console.log(intersects);
+    const intersects = raycaster.intersectObjects(clickableObjects);
 
     const currentHovered = {
         door1: false,
@@ -51,7 +56,7 @@ const renderLoop = () => {
     };
 
     for (let i = 0; i < intersects.length; i++) {
-        const name = intersects[i].object.name;
+        const name = intersects[i].object.userData.doorName;
         if (name === DOOR.door1) currentHovered.door1 = true;
         if (name === DOOR.door2) currentHovered.door2 = true;
         if (name === DOOR.door3) currentHovered.door3 = true;
@@ -65,7 +70,6 @@ const renderLoop = () => {
         const isHovered = currentHovered[key];
 
         if (!wasHovered && isHovered) {
-            console.log("lol");
             if (key === 'door1') door1.openDoor();
             if (key === 'door2') door2.openDoor();
             if (key === 'door3') door3.openDoor();
@@ -78,10 +82,28 @@ const renderLoop = () => {
         hoveredDoors[key] = isHovered;
     }
 
+    if(clicked){
+        console.log("clicked");
+
+        if(intersects.length > 0){
+            const name = intersects[0].object.userData.doorName;
+            let door;
+            if (name === DOOR.door1) door = door1;
+            if (name === DOOR.door2) door = door2;
+            if (name === DOOR.door3) door = door3;
+
+            door.doorClicked();
+            customCamera.doorOpened(door.doorGroup);
+        }
+
+        clicked = false;
+    }
+
     renderer.render(scene, camera);
     requestAnimationFrame(renderLoop);
 };
 
 
 window.addEventListener('pointermove', onPointerMove);
+window.addEventListener('click', onClick);
 renderLoop();
