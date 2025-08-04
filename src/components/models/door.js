@@ -25,16 +25,16 @@ export default class Door{
         this.doorHandle = this.door.getObjectByName("Cube");
 
         this.pivotGroup.position.set(-0.4, 0, 0);
-        this.doorMesh.position.set(0.4,1,0);
+        this.doorMesh.position.set(0.4,1,-0.05);
 
         this.pivotGroup.add(this.doorMesh)
 
         this.doorFrame.rotation.y = Math.PI / 1;
         this.doorHandle.rotation.y = Math.PI;
 
-        this.doorHandle.position.set(0.73, 1, 0.05);
+        this.doorHandle.position.set(0.73, 1, 0.1);
 this.pivotGroup.add(this.doorHandle);
-        this.doorFrame.position.set(0,1.2,0);
+        this.doorFrame.position.set(0,1.2,-0.05);
 
         this.doorGroup.add(this.doorFrame);
         this.doorGroup.add(this.pivotGroup);

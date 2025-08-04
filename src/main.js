@@ -6,7 +6,27 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { or } from 'three/tsl';
 import { DOOR } from './components/constants';
 
+
 const canvas = document.getElementById("renderArea");
+
+const doorPages = {
+    door1: document.getElementById("door1Page"),
+    door2: document.getElementById("door2Page"),
+    door3: document.getElementById("door3Page")
+}
+
+function showPage(doorKey){
+    console.log(doorKey);
+    for(const key in doorPages){
+        doorPages[key].style.display = 'none';
+    }
+
+    if(doorPages[doorKey]){
+        doorPages[doorKey].style.display = 'block';
+    }
+}
+const room = new RoomScene();
+const customCamera = new CustomCamera();
 
 const raycaster = new THREE.Raycaster();
 raycaster.layers.set(0);
@@ -17,11 +37,17 @@ function onPointerMove(event){
     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
 }
 
-const room = new RoomScene();
-const customCamera = new CustomCamera();
-
 const scene = room.getScene();
 const camera = customCamera.createCamera();
+
+document.querySelectorAll(".back-btn").forEach((back) => {
+    back.addEventListener('click', () => {
+        for(const key in doorPages){
+            doorPages[key].style.display = 'none';
+        }
+        customCamera.doorClosed();
+    });
+})
 
 const door1 = room.getDoor1();
 const door2 = room.getDoor2();
@@ -93,15 +119,19 @@ const renderLoop = () => {
             if (name === DOOR.door3) door = door3;
 
             door.doorClicked();
-            customCamera.doorOpened(door.doorGroup);
+            canvas.style.cursor = 'none';
+            customCamera.doorOpened(door.doorGroup).then(() => {
+                showPage(name);
+                canvas.style.cursor = 'auto';
+            });
         }
-
         clicked = false;
     }
 
     renderer.render(scene, camera);
     requestAnimationFrame(renderLoop);
 };
+
 
 
 window.addEventListener('pointermove', onPointerMove);

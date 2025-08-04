@@ -5,6 +5,7 @@ import gsap from "gsap";
 class CustomCamera{
     constructor(){
         this.camera = null;
+        this.cameraPos = new THREE.Vector3();
     }
 
     createCamera(){
@@ -25,13 +26,17 @@ class CustomCamera{
         const aspectRatio = window.innerWidth / window.innerHeight;
 
         if(aspectRatio < 1 && aspectRatio >= 0.65){
-            this.camera.position.set(0,0,11);
+            this.cameraPos.set(0,0,11);
+            this.camera.position.copy(this.cameraPos);
         }else if(aspectRatio < 0.65){
-            this.camera.position.set(0,0,15)
+            this.cameraPos.set(0,0,15)
+            this.camera.position.copy(this.cameraPos);
         }else if(aspectRatio >= 1 && aspectRatio < 1.5){
-            this.camera.position.set(0,0,7);
+            this.cameraPos.set(0,0,7);
+            this.camera.position.copy(this.cameraPos);
         }else{
-            this.camera.position.set(0,0,3.7);
+            this.cameraPos.set(0,0,3.7);
+            this.camera.position.copy(this.cameraPos);
         }
 
         
@@ -44,22 +49,35 @@ class CustomCamera{
     }
 
     doorOpened(doorMesh){
-        console.log(doorMesh);
-    const targetPosition = doorMesh.position.clone();
-    targetPosition.z += 1;
+        return new Promise((resolve) => {
+            const targetPosition = doorMesh.position.clone();
+            targetPosition.z += 1;
 
-    const lookAtTarget = doorMesh.position.clone();
+            const lookAtTarget = doorMesh.position.clone();
 
-    gsap.to(this.camera.position, {
-        x: targetPosition.x,
-        z: targetPosition.z,
-        duration: 3,
-        ease: 'power2.out',
-        onUpdate: () => {
-            // this.camera.lookAt(lookAtTarget);
-        }
-    });
-}
+            gsap.to(this.camera.position, {
+                x: targetPosition.x,
+                z: targetPosition.z - 1,
+                duration: 4,
+                ease: 'power2.out',
+                onComplete: () => {
+                    resolve();
+                }
+            });
+        })
+    }
+
+    doorClosed(){
+        gsap.to(this.camera.position, {
+            x: this.cameraPos.x,
+            z: this.cameraPos.z,
+            duration: 3,
+            ease: 'power2.out',
+            onComplete: () => {
+                //console.log("closed")
+            }
+        });
+    }
 
 }
 
