@@ -76,8 +76,8 @@ this.pivotGroup.add(this.doorHandle);
             this.disableHover = true;
             gsap.killTweensOf(this.pivotGroup.rotation);
             gsap.to(this.pivotGroup.rotation, {
-                y: Math.PI / 2,
-                duration: 2,
+                y: Math.PI / 1.5,
+                duration: 3,
                 ease: "power2.out",
                 overwrite: true,
                 onComplete: () => {

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import Door from './models/door';
 import { DOOR } from './constants';
+import { WALLTEXTURE } from './textures';
 
 class RoomScene{
 
@@ -20,7 +21,10 @@ class RoomScene{
 
     _setUpWalls(){
         const boxGeometry = new THREE.PlaneGeometry(1,1);
-        const boxMaterial = new THREE.MeshStandardMaterial({color: "#DC143C"});
+        const boxMaterial = new THREE.MeshStandardMaterial({ 
+            color: '#DC143C',
+            map: WALLTEXTURE.ALBEDO, 
+        });
 
         const topWall = new THREE.Mesh(boxGeometry,boxMaterial);
         topWall.scale.x = 20;
@@ -28,7 +32,12 @@ class RoomScene{
 
         const wallThickness = 0.2;
         const wallHeight = 5;
-        const wallMaterial = new THREE.MeshStandardMaterial({ color: '#DC143C' });
+        const wallMaterial = new THREE.MeshStandardMaterial({ 
+            color: '#DC143C',
+            map: WALLTEXTURE.ALBEDO, 
+        });
+
+
         const wallLeft = new THREE.Mesh(
             new THREE.BoxGeometry(3, wallHeight, wallThickness),
             wallMaterial

@@ -71,7 +71,7 @@ class CustomCamera{
         gsap.to(this.camera.position, {
             x: this.cameraPos.x,
             z: this.cameraPos.z,
-            duration: 3,
+            duration: 4,
             ease: 'power2.out',
             onComplete: () => {
                 //console.log("closed")
