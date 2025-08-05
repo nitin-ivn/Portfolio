@@ -35,7 +35,7 @@ class CustomCamera{
             this.cameraPos.set(0,0,7);
             this.camera.position.copy(this.cameraPos);
         }else{
-            this.cameraPos.set(0,0,3.7);
+            this.cameraPos.set(0,0,5);
             this.camera.position.copy(this.cameraPos);
         }
 

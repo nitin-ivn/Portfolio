@@ -12,3 +12,10 @@ export const WALLTEXTURE = {
     METALLIC : textureLoader.load(`/textures/${wallSrc}_bl/${wallSrc}_metallic.png`),
     NORMAL: textureLoader.load(`/textures/${wallSrc}_bl/${wallSrc}_normal-olg.png`),
 }
+
+export const repeatTextures = (arr,repeatX,repeatY) => {
+    arr.forEach((tex) => {
+        tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(repeatX,repeatY);
+    });
+}

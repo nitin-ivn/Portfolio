@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Door from './models/door';
-import { DOOR } from './constants';
-import { WALLTEXTURE } from './textures';
+import { DOOR, SCENE } from './constants';
+import { repeatTextures, WALLTEXTURE } from './textures';
 
 class RoomScene{
 
@@ -20,29 +20,46 @@ class RoomScene{
     }
 
     _setUpWalls(){
-        const boxGeometry = new THREE.PlaneGeometry(1,1);
-        const boxMaterial = new THREE.MeshStandardMaterial({ 
-            color: '#DC143C',
-            map: WALLTEXTURE.ALBEDO, 
-        });
-
-        const topWall = new THREE.Mesh(boxGeometry,boxMaterial);
-        topWall.scale.x = 20;
-        topWall.scale.y = 3;
-
         const wallThickness = 0.2;
-        const wallHeight = 5;
-        const wallMaterial = new THREE.MeshStandardMaterial({ 
-            color: '#DC143C',
-            map: WALLTEXTURE.ALBEDO, 
+        const wallHeight = 4.15;
+
+        const boxGeometry = new THREE.PlaneGeometry(17,7);
+        const topWallMaterial = new THREE.MeshStandardMaterial({
+            color: SCENE.wallColor,
+            map: WALLTEXTURE.ALBEDO.clone(),
+            aoMap: WALLTEXTURE.AO.clone(),
+            metalnessMap: WALLTEXTURE.METALLIC.clone(),
+            roughnessMap: WALLTEXTURE.ROUGHNESS.clone(),
         });
+
+        const wallMaterial = new THREE.MeshStandardMaterial({ 
+            color: SCENE.wallColor,
+            map: WALLTEXTURE.ALBEDO,
+            aoMap: WALLTEXTURE.AO,
+            metalnessMap: WALLTEXTURE.METALLIC,
+            roughnessMap: WALLTEXTURE.ROUGHNESS,
+        });
+
+        const topWall = new THREE.Mesh(boxGeometry,topWallMaterial);
+        topWall.material.map.repeat.set(17,7)
+        topWall.material.map.wrapS = THREE.RepeatWrapping;
+        topWall.material.map.wrapT = THREE.RepeatWrapping;
+        topWall.material.map.needsUpdate = true;
+        topWall.position.set(0,5.06,-2);
+
+
+
+        const repeatArr =  [WALLTEXTURE.ALBEDO, WALLTEXTURE.METALLIC, WALLTEXTURE.ROUGHNESS, WALLTEXTURE.AO];
+        repeatTextures(repeatArr,3,4);
+
+        
 
 
         const wallLeft = new THREE.Mesh(
             new THREE.BoxGeometry(3, wallHeight, wallThickness),
             wallMaterial
         );
-        wallLeft.position.set(-6.7, 0, -2.1);
+        wallLeft.position.set(-6.7, -0.5, -2.1);
         this.scene.add(wallLeft);
 
 
@@ -50,25 +67,22 @@ class RoomScene{
         new THREE.BoxGeometry(1.7, wallHeight, wallThickness),
             wallMaterial
         );
-        wallMidLeft.position.set(-2.05, 0, -2.1);
+        wallMidLeft.position.set(-2.05, -0.5, -2.1);
         this.scene.add(wallMidLeft);
 
         const wallMidRight = new THREE.Mesh(
         new THREE.BoxGeometry(1.7, wallHeight, wallThickness),
             wallMaterial
         );
-        wallMidRight.position.set(1.95, 0, -2.1);
+        wallMidRight.position.set(1.95, -0.5, -2.1);
         this.scene.add(wallMidRight);
 
         const wallRight = new THREE.Mesh(
         new THREE.BoxGeometry(3, wallHeight, wallThickness),
             wallMaterial
         );
-        wallRight.position.set(6.6, 0, -2.1);
+        wallRight.position.set(6.6, -0.5, -2.1);
         this.scene.add(wallRight);
-
-
-        topWall.position.set(0,3.06,-2);
         
         topWall.layers.set(2);
         wallLeft.layers.set(2);
@@ -80,7 +94,9 @@ class RoomScene{
 
     _setUpFloor(){
         const floorGeometry = new THREE.BoxGeometry(15,5,1);
-        const floorMaterial = new THREE.MeshStandardMaterial({color: "white"});
+        const floorMaterial = new THREE.MeshStandardMaterial({
+            color: SCENE.floorColor,
+        });
 
         const floor = new THREE.Mesh(floorGeometry, floorMaterial);
         floor.rotation.x = -(Math.PI / 2);

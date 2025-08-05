@@ -25,7 +25,7 @@ export default class Door{
         this.doorHandle = this.door.getObjectByName("Cube");
 
         this.pivotGroup.position.set(-0.4, 0, 0);
-        this.doorMesh.position.set(0.4,1,-0.05);
+        this.doorMesh.position.set(0.4,0.97,-0.05);
 
         this.pivotGroup.add(this.doorMesh)
 
@@ -76,7 +76,7 @@ this.pivotGroup.add(this.doorHandle);
             this.disableHover = true;
             gsap.killTweensOf(this.pivotGroup.rotation);
             gsap.to(this.pivotGroup.rotation, {
-                y: Math.PI / 1.5,
+                y: Math.PI / 1.8,
                 duration: 3,
                 ease: "power2.out",
                 overwrite: true,

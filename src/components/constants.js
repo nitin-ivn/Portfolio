@@ -1,3 +1,15 @@
+export const SCENE = {
+    wallColor: '#8A9A5B',
+    floorColor: '#64675A',
+
+
+    // wallColor: '#8A9A5B',
+    // floorColor: '#A67B5B',
+
+    // wallColor: '#B39C82',
+    // floorColor: '#5A5A5A',
+}
+
 export const DOOR = {
     D1X : -4.05,
     D2X: -0.05,
