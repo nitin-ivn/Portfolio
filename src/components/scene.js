@@ -23,7 +23,7 @@ class RoomScene{
         const wallThickness = 0.2;
         const wallHeight = 4.15;
 
-        const boxGeometry = new THREE.PlaneGeometry(17,7);
+        const boxGeometry = new THREE.PlaneGeometry(18.5,7);
         const topWallMaterial = new THREE.MeshStandardMaterial({
             color: SCENE.wallColor,
             map: WALLTEXTURE.ALBEDO.clone(),
@@ -41,7 +41,7 @@ class RoomScene{
         });
 
         const topWall = new THREE.Mesh(boxGeometry,topWallMaterial);
-        topWall.material.map.repeat.set(17,7)
+        topWall.material.map.repeat.set(18,7)
         topWall.material.map.wrapS = THREE.RepeatWrapping;
         topWall.material.map.wrapT = THREE.RepeatWrapping;
         topWall.material.map.needsUpdate = true;
@@ -52,14 +52,12 @@ class RoomScene{
         const repeatArr =  [WALLTEXTURE.ALBEDO, WALLTEXTURE.METALLIC, WALLTEXTURE.ROUGHNESS, WALLTEXTURE.AO];
         repeatTextures(repeatArr,3,4);
 
-        
-
 
         const wallLeft = new THREE.Mesh(
-            new THREE.BoxGeometry(3, wallHeight, wallThickness),
+            new THREE.BoxGeometry(4, wallHeight, wallThickness),
             wallMaterial
         );
-        wallLeft.position.set(-6.7, -0.5, -2.1);
+        wallLeft.position.set(-7.2, -0.5, -2.1);
         this.scene.add(wallLeft);
 
 
@@ -93,7 +91,7 @@ class RoomScene{
     }
 
     _setUpFloor(){
-        const floorGeometry = new THREE.BoxGeometry(15,5,1);
+        const floorGeometry = new THREE.BoxGeometry(18,5,1);
         const floorMaterial = new THREE.MeshStandardMaterial({
             color: SCENE.floorColor,
         });
@@ -105,28 +103,58 @@ class RoomScene{
         floor.name = "floor"
 
         floor.layers.set(2);
+        floor.receiveShadow = true;
         this.scene.add(floor);
     }
 
     _setUpLights(){
-        const ceilingLight = new THREE.SpotLight(0xffffff,10);
-        ceilingLight.position.set(0,3.4,0);
-        ceilingLight.angle = Math.PI / 1.2;
-        ceilingLight.penumbra = 0.4;
-        ceilingLight.decay = 1.8;
-        ceilingLight.distance = 10;
-        ceilingLight.castShadow = true;
-
-        ceilingLight.shadow.mapSize.set(1024,1024);
-        ceilingLight.shadow.bias = -0.005;
-
-        ceilingLight.target.position.set(0, 0, 0);
-
-        this.scene.add(ceilingLight);
-        this.scene.add(ceilingLight.target);
-
-        const ambient = new THREE.AmbientLight(0x222222);
+        const ambient = new THREE.AmbientLight(0x101010);
         this.scene.add(ambient)
+
+        const lights = [
+            { x: -4.05, targetX: -4.1, name: 'door1' },
+            { x: 0, targetX: 0, name: 'door2' }, 
+            { x: 3.95, targetX: 4.1, name: 'door3' }
+        ]
+
+        lights.forEach((child) => {
+            const ceilingLight = new THREE.SpotLight(0xffffff,10);
+            ceilingLight.position.set(child.x, 5, -1);
+            ceilingLight.target.position.set(child.x, 0, -2);
+            ceilingLight.angle = Math.PI / 8;
+            ceilingLight.penumbra = 0.6;
+            ceilingLight.intensity = 20;
+            ceilingLight.decay = 2;
+            ceilingLight.distance = 15;
+            ceilingLight.shadow.bias = -0.01;
+            ceilingLight.castShadow = true;
+
+
+            ceilingLight.shadow.mapSize.set(2048,1024);
+            ceilingLight.shadow.bias = -0.01;
+
+            this.scene.add(ceilingLight);
+            this.scene.add(ceilingLight.target);
+            
+        })
+
+        // const ceilingLight = new THREE.SpotLight(0xffffff,10);
+        // ceilingLight.position.set(0, 4, -1);
+        // ceilingLight.target.position.set(0, 0, -2);
+        // ceilingLight.angle = Math.PI / 6;
+        // ceilingLight.penumbra = 0.6;
+        // ceilingLight.intensity = 20;
+        // ceilingLight.decay = 2;
+        // ceilingLight.distance = 15;
+        // ceilingLight.shadow.bias = -0.01;
+        // ceilingLight.castShadow = true;
+
+
+        // ceilingLight.shadow.mapSize.set(1024,1024);
+        // ceilingLight.shadow.bias = -0.01;
+
+        // this.scene.add(ceilingLight);
+        // this.scene.add(ceilingLight.target);
     }
 
     _setUpDoors(){
@@ -162,6 +190,9 @@ class RoomScene{
             this.door3Class.assignDoorName(DOOR.door3);
 
             if(this.door3){
+                this.door1.castShadow = true;
+                this.door2.castShadow = true;
+                this.door3.castShadow = true;
                 this.scene.add(this.door3);
             }
         });

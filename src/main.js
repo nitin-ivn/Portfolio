@@ -60,6 +60,9 @@ const orbitControls = new OrbitControls(camera,canvas);
 
 const renderer = createRenderer(canvas, customCamera);
 
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
 const hoveredDoors = {
     door1: false,
     door2: false,
