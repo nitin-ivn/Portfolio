@@ -1,12 +1,13 @@
 body{
   position: relative;
   overflow: hidden;
-  margin: 0;;
+  margin: 0;
 }
 
 #renderArea{
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .doorPage{
@@ -17,4 +18,20 @@ body{
   background-color: white;
   min-width: 100vw;
   min-height: 100vh;
+
+  /* background-color: black; */
+   /* background: radial-gradient(ellipse 80% 80% at 50% -20%, hsla(197, 66%, 83%, 0.3), rgba(255, 255, 255,0));
+
+  backgroud: radial-gradient(ellipse 80% 80% at 50% -20%, rgba(255, 255, 255, 0.3), rgba(255, 255,255,0)); */
+}
+
+#door1Page{
+  display: blck;
+  min-height: 500rem;
+}
+
+.back-btn{
+  position: fixed;
+  top: 0;
+  left: 0;
 }

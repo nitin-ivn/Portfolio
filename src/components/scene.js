@@ -119,9 +119,9 @@ class RoomScene{
 
         lights.forEach((child) => {
             const ceilingLight = new THREE.SpotLight(0xffffff,10);
-            ceilingLight.position.set(child.x, 5, -1);
+            ceilingLight.position.set(child.x, 4.5, -1);
             ceilingLight.target.position.set(child.x, 0, -2);
-            ceilingLight.angle = Math.PI / 8;
+            ceilingLight.angle = Math.PI / 6;
             ceilingLight.penumbra = 0.6;
             ceilingLight.intensity = 20;
             ceilingLight.decay = 2;
