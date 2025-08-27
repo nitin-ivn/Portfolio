@@ -39,8 +39,8 @@ function showPage(doorKey){
         }
         doorPages[doorKey].style.display = 'block';
     }
-    document.body.style.overflow = "auto";
-    document.body.style.overflowInline = "hidden"
+    //document.body.style.overflow = "auto";
+    //document.body.style.overflowInline = "hidden"
 }
 const room = new RoomScene();
 const customCamera = new CustomCamera();
@@ -61,7 +61,7 @@ document.querySelectorAll(".back-btn").forEach((back) => {
     back.addEventListener('click', () => {
         stopAllLoops();
         startLoop();
-        document.body.style.overflow = "hidden";
+        //document.body.style.overflow = "hidden";
         for(const key in doorPages){
             doorPages[key].style.display = 'none';
         }
@@ -77,7 +77,7 @@ const door3 = room.getDoor3();
 let INTERSECTED;
 let clicked = false;
 
-const orbitControls = new OrbitControls(camera,canvas);
+//const orbitControls = new OrbitControls(camera,canvas);
 
 const renderer = createRenderer(canvas, customCamera);
 

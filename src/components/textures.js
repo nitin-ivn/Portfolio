@@ -13,6 +13,21 @@ export const WALLTEXTURE = {
     NORMAL: textureLoader.load(`/textures/${wallSrc}_bl/${wallSrc}_normal-olg.png`),
 }
 
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+cubeTextureLoader.setPath('/cubeMap/');
+
+export const homePageTextures = {
+    backgroundCubeMap : cubeTextureLoader.load( [
+          'px.png',
+          'nx.png',
+          'py.png',
+          'ny.png',
+          'pz.png',
+          'nz.png'
+        ] )
+}
+
+
 export const repeatTextures = (arr,repeatX,repeatY) => {
     arr.forEach((tex) => {
         tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
