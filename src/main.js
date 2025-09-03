@@ -3,42 +3,34 @@ import RoomScene from './components/scene';
 import CustomCamera from './components/camera';
 import { createRenderer } from './components/renderer';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
-import { or } from 'three/tsl';
 import { DOOR } from './components/constants';
-import { startHomeLoop, stopHomeLoop } from './home';
+import { startProjectsLoop, stopProjectsLoop } from './projects';
+import { startProfileLoop, stopProfileLoop } from './profile';
 
 
 const canvas = document.getElementById("renderArea");
-
-
-const doorPages = {
-    door1: document.getElementById("door1Page"),
-    door2: document.getElementById("door2Page"),
-    door3: document.getElementById("door3Page")
-}
+const backBtn = document.querySelector(".back-btn");
 
 function stopAllLoops(){
-    stopHomeLoop();
+    // stopProjectsLoop();
+    // stopProfileLoop();
+    stopLoop();
 }
 
 function showPage(doorKey){
     console.log(doorKey);
     stopAllLoops();
-    for(const key in doorPages){
-        doorPages[key].style.display = 'none';
+
+    stopLoop();
+    if(doorKey == "door1"){
+        startProfileLoop(renderer);
+    }else if(doorKey == "door2"){
+        startProjectsLoop(renderer);
+    }else{
+
     }
-
-    if(doorPages[doorKey]){
-        stopLoop();
-        if(doorKey == "door1"){
-            startHomeLoop();
-        }else if(doorKey == "door2"){
-
-        }else{
-
-        }
-        doorPages[doorKey].style.display = 'block';
-    }
+    backBtn.style.display = "block";
+        //doorPages[doorKey].style.display = 'block';
     //document.body.style.overflow = "auto";
     //document.body.style.overflowInline = "hidden"
 }
@@ -57,18 +49,14 @@ function onPointerMove(event){
 const scene = room.getScene();
 const camera = customCamera.createCamera();
 
-document.querySelectorAll(".back-btn").forEach((back) => {
-    back.addEventListener('click', () => {
+backBtn.addEventListener('click', () => {
         stopAllLoops();
         startLoop();
         //document.body.style.overflow = "hidden";
-        for(const key in doorPages){
-            doorPages[key].style.display = 'none';
-        }
+        backBtn.style.display = "none";
         
         customCamera.doorClosed();
-    });
-})
+});
 
 const door1 = room.getDoor1();
 const door2 = room.getDoor2();
@@ -80,9 +68,6 @@ let clicked = false;
 //const orbitControls = new OrbitControls(camera,canvas);
 
 const renderer = createRenderer(canvas, customCamera);
-
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const hoveredDoors = {
     door1: false,
@@ -96,8 +81,8 @@ function onClick(){
 const clickableObjects = [door1.doorMesh, door2.doorMesh, door3.doorMesh];
 
 function startLoop(){
+    //startProfileLoop(renderer)
     renderer.setAnimationLoop(() => {
-        console.log("lol")
         raycaster.setFromCamera(pointer, camera);
         const intersects = raycaster.intersectObjects(clickableObjects);
 
@@ -135,7 +120,6 @@ function startLoop(){
         }
 
         if(clicked){
-            console.log("clicked");
 
             if(intersects.length > 0){
                 const name = intersects[0].object.userData.doorName;

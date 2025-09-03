@@ -1,11 +1,7 @@
 import * as THREE from 'three';
 import CustomCamera from './components/camera';
-import { homePageTextures } from './components/textures';
-import { createRenderer } from './components/renderer';
+import { createRenderer, updateRendererCamera } from './components/renderer';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
-import { DirectionalLight } from 'three/webgpu';
-
-const canvas = document.getElementById("renderHomePage");
 
 const customCamera = new CustomCamera();
 const camera = customCamera.createCamera();
@@ -26,7 +22,7 @@ scene.add(testCube);
 
 //const orbitControls = new OrbitControls(camera,canvas);
 
-const renderer = createRenderer(canvas,camera);
+//const renderer = createRenderer(canvas,camera);
 let inHome = false;
 
 let targetScroll = camera.position.z;
@@ -114,21 +110,23 @@ scene.add(camera);
 
 
 
-export function startHomeLoop(){
+export function startProjectsLoop(renderer){
     inHome = true;
+
+    console.log(renderer);
+
     renderer.setAnimationLoop(() => {
         updateTorch();
+        updateRendererCamera(camera);
         renderer.render(scene,camera);
         
     });
 }
 
 
-export function stopHomeLoop(){
+export function stopProjectsLoop(){
     inHome = false;
-    renderer.setAnimationLoop(null);
+    //renderer.setAnimationLoop(null);
     
 }
-startHomeLoop();
-
 
