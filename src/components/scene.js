@@ -109,7 +109,7 @@ class RoomScene{
 
     _setUpLights(){
         const ambient = new THREE.AmbientLight(0x101010);
-        this.scene.add(ambient)
+        this.scene.add(ambient);
 
         const lights = [
             { x: -4.05, targetX: -4.1, name: 'door1' },
@@ -137,24 +137,6 @@ class RoomScene{
             this.scene.add(ceilingLight.target);
             
         })
-
-        // const ceilingLight = new THREE.SpotLight(0xffffff,10);
-        // ceilingLight.position.set(0, 4, -1);
-        // ceilingLight.target.position.set(0, 0, -2);
-        // ceilingLight.angle = Math.PI / 6;
-        // ceilingLight.penumbra = 0.6;
-        // ceilingLight.intensity = 20;
-        // ceilingLight.decay = 2;
-        // ceilingLight.distance = 15;
-        // ceilingLight.shadow.bias = -0.01;
-        // ceilingLight.castShadow = true;
-
-
-        // ceilingLight.shadow.mapSize.set(1024,1024);
-        // ceilingLight.shadow.bias = -0.01;
-
-        // this.scene.add(ceilingLight);
-        // this.scene.add(ceilingLight.target);
     }
 
     _setUpDoors(){

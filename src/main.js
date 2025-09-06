@@ -81,65 +81,65 @@ function onClick(){
 const clickableObjects = [door1.doorMesh, door2.doorMesh, door3.doorMesh];
 
 function startLoop(){
-    //startProfileLoop(renderer)
-    renderer.setAnimationLoop(() => {
-        raycaster.setFromCamera(pointer, camera);
-        const intersects = raycaster.intersectObjects(clickableObjects);
+    startProfileLoop(renderer)
+    // renderer.setAnimationLoop(() => {
+    //     raycaster.setFromCamera(pointer, camera);
+    //     const intersects = raycaster.intersectObjects(clickableObjects);
 
-        const currentHovered = {
-            door1: false,
-            door2: false,
-            door3: false
-        };
+    //     const currentHovered = {
+    //         door1: false,
+    //         door2: false,
+    //         door3: false
+    //     };
 
-        for (let i = 0; i < intersects.length; i++) {
-            const name = intersects[i].object.userData.doorName;
-            if (name === DOOR.door1) currentHovered.door1 = true;
-            if (name === DOOR.door2) currentHovered.door2 = true;
-            if (name === DOOR.door3) currentHovered.door3 = true;
+    //     for (let i = 0; i < intersects.length; i++) {
+    //         const name = intersects[i].object.userData.doorName;
+    //         if (name === DOOR.door1) currentHovered.door1 = true;
+    //         if (name === DOOR.door2) currentHovered.door2 = true;
+    //         if (name === DOOR.door3) currentHovered.door3 = true;
 
-        }
+    //     }
 
-        //if(intersects.length > 0) console.log(intersects);
+    //     //if(intersects.length > 0) console.log(intersects);
 
-        for (const key of ['door1', 'door2', 'door3']) {
-            const wasHovered = hoveredDoors[key];
-            const isHovered = currentHovered[key];
+    //     for (const key of ['door1', 'door2', 'door3']) {
+    //         const wasHovered = hoveredDoors[key];
+    //         const isHovered = currentHovered[key];
 
-            if (!wasHovered && isHovered) {
-                if (key === 'door1') door1.openDoor();
-                if (key === 'door2') door2.openDoor();
-                if (key === 'door3') door3.openDoor();
-            } else if (wasHovered && !isHovered) {
-                if (key === 'door1') door1.closeDoor();
-                if (key === 'door2') door2.closeDoor();
-                if (key === 'door3') door3.closeDoor();
-            }
+    //         if (!wasHovered && isHovered) {
+    //             if (key === 'door1') door1.openDoor();
+    //             if (key === 'door2') door2.openDoor();
+    //             if (key === 'door3') door3.openDoor();
+    //         } else if (wasHovered && !isHovered) {
+    //             if (key === 'door1') door1.closeDoor();
+    //             if (key === 'door2') door2.closeDoor();
+    //             if (key === 'door3') door3.closeDoor();
+    //         }
 
-            hoveredDoors[key] = isHovered;
-        }
+    //         hoveredDoors[key] = isHovered;
+    //     }
 
-        if(clicked){
+    //     if(clicked){
 
-            if(intersects.length > 0){
-                const name = intersects[0].object.userData.doorName;
-                let door;
-                if (name === DOOR.door1) door = door1;
-                if (name === DOOR.door2) door = door2;
-                if (name === DOOR.door3) door = door3;
+    //         if(intersects.length > 0){
+    //             const name = intersects[0].object.userData.doorName;
+    //             let door;
+    //             if (name === DOOR.door1) door = door1;
+    //             if (name === DOOR.door2) door = door2;
+    //             if (name === DOOR.door3) door = door3;
 
-                door.doorClicked();
-                canvas.style.cursor = 'none';
-                customCamera.doorOpened(door.doorGroup).then(() => {
-                    showPage(name);
-                    canvas.style.cursor = 'auto';
-                });
-            }
-            clicked = false;
-        }
+    //             door.doorClicked();
+    //             canvas.style.cursor = 'none';
+    //             customCamera.doorOpened(door.doorGroup).then(() => {
+    //                 showPage(name);
+    //                 canvas.style.cursor = 'auto';
+    //             });
+    //         }
+    //         clicked = false;
+    //     }
 
-        renderer.render(scene, camera);
-    });
+    //     renderer.render(scene, camera);
+    // });
 }
 
 function stopLoop(){
