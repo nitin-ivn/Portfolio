@@ -8,6 +8,7 @@ import { ceil } from 'three/tsl';
 
 const customCamera = new CustomCamera();
 const camera = customCamera.createCamera();
+camera.position.set(0,-0.3,3)
 const scene = new THREE.Scene();
 
 
