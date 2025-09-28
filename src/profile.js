@@ -2,8 +2,9 @@ import * as THREE from 'three';
 import CustomCamera from './components/camera';
 import { SCENE } from './components/constants';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
-import { WALLTEXTURE } from './components/textures';
-import { ceil } from 'three/tsl';
+import { PWALLTEXTURE, repeatTextures, WALLTEXTURE} from './components/textures';
+import { normalMap } from 'three/tsl';
+
 
 
 const customCamera = new CustomCamera();
@@ -36,7 +37,16 @@ function _setUpFloor(){
 
 function _setUpWalls(){
     const wallGeometry = new THREE.PlaneGeometry(18.5,10);
-    const wallMaterial = new THREE.MeshStandardMaterial({color: "red"});
+    const wallMaterial = new THREE.MeshStandardMaterial({
+        color: "yellow",
+        map: PWALLTEXTURE.ALBEDO,
+        aoMap: PWALLTEXTURE.AO,
+        roughnessMap: PWALLTEXTURE.ROUGHNESS,
+        metalnessMap: PWALLTEXTURE.METALLIC,
+    });
+
+    const repeatArr =  [PWALLTEXTURE.ALBEDO, PWALLTEXTURE.METALLIC, PWALLTEXTURE.ROUGHNESS, PWALLTEXTURE.AO];
+    repeatTextures(repeatArr,2,2);
 
     const wall = new THREE.Mesh(wallGeometry,wallMaterial);
     wall.position.set(0,1,-2);
