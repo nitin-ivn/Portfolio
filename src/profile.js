@@ -38,15 +38,20 @@ function _setUpFloor(){
 function _setUpWalls(){
     const wallGeometry = new THREE.PlaneGeometry(18.5,10);
     const wallMaterial = new THREE.MeshStandardMaterial({
-        color: "yellow",
         map: PWALLTEXTURE.ALBEDO,
-        aoMap: PWALLTEXTURE.AO,
         roughnessMap: PWALLTEXTURE.ROUGHNESS,
-        metalnessMap: PWALLTEXTURE.METALLIC,
+        aoMap: PWALLTEXTURE.AO,
+        //normalMap: PWALLTEXTURE.NORMAL,
+        displacementMap: PWALLTEXTURE.HEIGHT,
+        metallicMap: PWALLTEXTURE.METALLIC,
+        roughness: 0.6,
+        metalness: 0.0,
+        clearcoat: 0.2,
+        clearcoatRoughness: 0.1
     });
 
     const repeatArr =  [PWALLTEXTURE.ALBEDO, PWALLTEXTURE.METALLIC, PWALLTEXTURE.ROUGHNESS, PWALLTEXTURE.AO];
-    repeatTextures(repeatArr,2,2);
+    repeatTextures(repeatArr,5,1);
 
     const wall = new THREE.Mesh(wallGeometry,wallMaterial);
     wall.position.set(0,1,-2);
