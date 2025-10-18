@@ -15,13 +15,34 @@ export const WALLTEXTURE = {
 }
 
 
+// export const PWALLTEXTURE = {
+//     ALBEDO : textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-albedo.png`),
+//     ALBEDO : textureLoader.load(`/textures/woodPlanks/`)
+//     ROUGHNESS : textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-roughness.png`),
+//     AO : textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-ao.png`),
+//     METALLIC : textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-metalness.png`),
+//     NORMAL: textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-normal-olg.png`),
+// }
+
+
 export const PWALLTEXTURE = {
-    ALBEDO : textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-albedo.png`),
-    ROUGHNESS : textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-roughness.png`),
-    AO : textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-ao.png`),
-    METALLIC : textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-metalness.png`),
-    NORMAL: textureLoader.load(`/textures/${pwallSrc}-bl/${pwallSrc}-normal-olg.png`),
+    ALBEDO: textureLoader.load(`/textures/woodPlanks/wood12_baseColor.png`),
+    ROUGHNESS: textureLoader.load(`/textures/woodPlanks/wood12_roughness.png`),
+    AO: textureLoader.load(`/textures/woodPlanks/wood12_ambientOcclusion.png`),
+    METALLIC: textureLoader.load(`/textures/woodPlanks/wood12_metallic.png`),
+    NORMAL: textureLoader.load(`/textures/woodPlanks/wood12_normal.png`),
+    HEIGHT: textureLoader.load(`/textures/woodPlanks/wood12_height.png`),
+    SPECULAR: textureLoader.load(`/textures/woodPlanks/wood12_specular.png`),
+    GLOSSINESS: textureLoader.load(`/textures/woodPlanks/wood12_glossiness.png`)
+};
+
+
+function rotateTexture(texture) {
+    texture.rotation = Math.PI;
+    texture.needsUpdate = true;
 }
+
+Object.values(PWALLTEXTURE).forEach(texture => rotateTexture(texture));
 
 
 
