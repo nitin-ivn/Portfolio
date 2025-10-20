@@ -36,6 +36,11 @@ export const PWALLTEXTURE = {
     GLOSSINESS: textureLoader.load(`/textures/woodPlanks/wood12_glossiness.png`)
 };
 
+export const POSTEXTURE = textureLoader.load('/textures/poster.png', (tex) => {
+    tex.encoding = THREE.sRGBEncoding;
+    tex.needsUpdate = true;
+  });
+
 
 function rotateTexture(texture) {
     texture.rotation = Math.PI;
