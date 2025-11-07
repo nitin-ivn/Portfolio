@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import RoomScene from './components/scene';
 import CustomCamera from './components/camera';
-import { createRenderer } from './components/renderer';
+import { createCSS2Renderer, createRenderer } from './components/renderer';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { DOOR } from './components/constants';
 import { startProjectsLoop, stopProjectsLoop } from './projects';
@@ -23,7 +23,7 @@ function showPage(doorKey){
 
     stopLoop();
     if(doorKey == "door1"){
-        startProfileLoop(renderer);
+        startProfileLoop(renderer, labelRenderer);
     }else if(doorKey == "door2"){
         startProjectsLoop(renderer);
     }else{
@@ -68,6 +68,7 @@ let clicked = false;
 //const orbitControls = new OrbitControls(camera,canvas);
 
 const renderer = createRenderer(canvas, customCamera);
+const labelRenderer = createCSS2Renderer();
 
 const hoveredDoors = {
     door1: false,
@@ -81,7 +82,8 @@ function onClick(){
 const clickableObjects = [door1.doorMesh, door2.doorMesh, door3.doorMesh];
 
 function startLoop(){
-    startProfileLoop(renderer)
+    labelRenderer.domElement.innerHTML = '';
+    startProfileLoop(renderer, labelRenderer);
     // renderer.setAnimationLoop(() => {
     //     raycaster.setFromCamera(pointer, camera);
     //     const intersects = raycaster.intersectObjects(clickableObjects);
@@ -139,6 +141,7 @@ function startLoop(){
     //     }
 
     //     renderer.render(scene, camera);
+    //     labelRenderer.render(scene,camera);
     // });
 }
 

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import CustomCamera from './components/camera';
 import { SCENE } from './components/constants';
-import { LuminosityHighPassShader, OrbitControls } from 'three/examples/jsm/Addons.js';
+import { CSS2DObject, LuminosityHighPassShader, OrbitControls } from 'three/examples/jsm/Addons.js';
 import { POSTEXTURE, PWALLTEXTURE, repeatTextures, WALLTEXTURE} from './components/textures';
 
 let poster;
@@ -75,17 +75,13 @@ function _setUpLights() {
     hangingLight.shadow.bias = -0.0001;
     hangingLight.shadow.normalBias = 0.02;
 
-    // // Adjust shadow camera
-    // hangingLight.shadow.camera.near = 1;
-    // hangingLight.shadow.camera.far = 15;
-
     scene.add(hangingLight);
     scene.add(hangingLight.target);
 
 
 
 
-    const ldlight = new THREE.SpotLight(0xFFFFFF, 65);
+    //const ldlight = new THREE.SpotLight(0xFFFFFF, 65);
     // ldlight.penumbra = 0.1;
     // ldlight.decay = 2.7;
     // ldlight.angle = Math.PI / 10;
@@ -117,9 +113,19 @@ function _setUpPoster(){
         metalness: 0.0,
     });
 
+    
+
     poster = new THREE.Mesh(posterGeometry,posterMaterial);
     poster.position.set(0,0,-1.4);
     poster.castShadow = true;
+
+
+    //poster HTML
+    let wantedLabel = document.createElement('label');
+    wantedLabel.innerHTML = 'WANTED';
+    const wantedObject = new CSS2DObject(wantedLabel);
+    wantedObject.position.set(0,0,0);
+    poster.add(wantedObject);
 
     scene.add(poster);
     
@@ -127,7 +133,7 @@ _setUpLights();
 }
 
 
-export function startProfileLoop(renderer){
+export function startProfileLoop(renderer, labelRenderer){
     const orbitControls = new OrbitControls(camera,renderer.domElement);
 
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -139,6 +145,7 @@ export function startProfileLoop(renderer){
 
     renderer.setAnimationLoop(() => {
         renderer.render(scene,camera)
+        labelRenderer.render(scene,camera);
     })
 }
 
